@@ -1,0 +1,51 @@
+import numpy as np
+
+# Entradas para la neurona (Solo una entrada)
+X = np.array([
+    [0],  # Entrada 0
+    [1]   # Entrada 1
+])
+
+# Salidas esperadas (Tabla de Verdad NOT: invierte la entrada)
+Y = np.array([1, 0])
+
+# Pesos para la única entrada: Un peso negativo
+W = [-1]
+
+# Umbral: Un umbral negativo o cero para que se active solo con la entrada 0
+umbral = 0 
+
+class McCullochPitts:
+    def __init__(self, weights, umbral):
+        """
+        Constructor de la neurona MCP.
+        """
+        self.weights = weights
+        self.umbral = umbral
+    
+    def predict(self, X):
+        """
+        Calcula la salida de la neurona para cada fila de entradas X.
+        """
+        predictions = []
+        for i in range(X.shape[0]):
+            # Calculamos la suma ponderada: w1*x1
+            # Importante: X[i] es una lista, usamos flatten() para que funcione con np.dot
+            weighted_sum = np.dot(self.weights, X[i].flatten())
+            
+            # Mostramos en consola la entrada y la suma ponderada
+            print(f"Input: {X[i][0]}, Weighted Sum: {weighted_sum}")
+            
+            # Comparación con el umbral (función de activación)
+            if weighted_sum >= self.umbral:
+                predictions.append(1)
+            else:
+                predictions.append(0)
+        return predictions
+    
+# Instanciamos la clase McCullochPitts
+mcp = McCullochPitts(W, umbral) 
+# Calculamos las predicciones
+predictions = mcp.predict(X) 
+# Mostramos el resultado final        
+print("Predictions (NOT):", predictions)
