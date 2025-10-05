@@ -1,0 +1,52 @@
+import numpy as np
+
+# Entradas completas (todas las 4 combinaciones de dos entradas binarias)
+X = np.array([
+    [0, 0],
+    [0, 1],
+    [1, 0],
+    [1, 1]
+])
+
+# Salidas esperadas para la compuerta OR
+# (Solo es 0 cuando ambas entradas son 0)
+Y = np.array([0, 1, 1, 1])
+
+# Pesos: w1=1, w2=1 (mantienen su importancia positiva)
+W = [1, 1]
+
+# Umbral: ¡La clave! Solo necesitamos que la suma sea >= 1
+umbral = 1 
+
+class McCullochPitts:
+    def __init__(self, weights, umbral):
+        """
+        Constructor de la neurona MCP.
+        """
+        self.weights = weights
+        self.umbral = umbral
+    
+    def predict(self, X):
+        """
+        Calcula la salida de la neurona para cada fila de entradas X.
+        """
+        predictions = []
+        for i in range(X.shape[0]):
+            # Calculamos la suma ponderada: w1*x1 + w2*x2
+            weighted_sum = np.dot(self.weights, X[i])
+            
+            print(f"Input: {X[i]}, Weighted Sum: {weighted_sum}")
+            
+            # Comparación con el umbral (función de activación)
+            if weighted_sum >= self.umbral:
+                predictions.append(1)
+            else:
+                predictions.append(0)
+        return predictions
+    
+# Instanciamos la clase McCullochPitts
+mcp = McCullochPitts(W, umbral) 
+# Calculamos las predicciones
+predictions = mcp.predict(X) 
+# Mostramos el resultado final        
+print("Predictions (OR):", predictions)
